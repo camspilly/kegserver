@@ -1,4 +1,0 @@
-kegserver
-=========
-
-Server for kegerator
