@@ -28,7 +28,7 @@ else:
             # The following settings are not used with sqlite3:
             'USER': 'root',
             'NAME': 'kegtest',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-            'PASSWORD': 'XXXXXXX'
+            'PASSWORD': 'hibob'
         }
     }
     
@@ -133,9 +133,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'users'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
