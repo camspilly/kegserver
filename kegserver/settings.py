@@ -29,7 +29,7 @@ else:
             'HOST':       '173.194.242.221',
             'NAME':       'keg',
             'USER':       'root',
-            'PASSWORD':   'XXXXXXX',
+            'PASSWORD':   'hibob',
         }
     }
 
