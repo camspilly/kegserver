@@ -1,4 +1,8 @@
 # Django settings for kegserver project.
+import os, sys
+import os.path
+
+PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -9,17 +13,26 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST':   '/cloudsql/shaped-pride-770:kegdb',
+            'NAME':   'keg',
+            'USER':   'root',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE':     'django.db.backends.mysql',
+            'HOST':       '173.194.242.221',
+            'NAME':       'keg',
+            'USER':       'root',
+            'PASSWORD':   'XXXXXXX',
+        }
+    }
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -61,7 +74,8 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+# STATIC_ROOT = "/Users/nathan/workplace/kegserver_env/kegserver/static/" 
+STATIC_ROOT = ""
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -111,6 +125,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    PROJECT_ROOT + "/"
 )
 
 INSTALLED_APPS = (
@@ -121,10 +136,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'helloworld'
+    'helloworld',
+    'account',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
