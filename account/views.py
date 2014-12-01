@@ -5,7 +5,9 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from account.models import KegUserForm, UserForm
 
-#def register(request):
+def payment(request):
+    pass
+    
     
 def register(request):
     if request.method == 'POST':
@@ -22,7 +24,7 @@ def register(request):
     else:
         userf = UserForm(prefix='user')
         keguserf = KegUserForm(prefix='keguser')
-        return render_to_response('templates/register/register.html', 
+        return render_to_response('templates/register/register2.html', 
                                                    dict(userform=userf,
                                                         keguserform=keguserf),
                                                    context_instance=RequestContext(request))
