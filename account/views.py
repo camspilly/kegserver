@@ -21,29 +21,29 @@ def index(request):
   pass
 
 def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
+  username = request.POST['username']
+  password = request.POST['password']
+  user = authenticate(username=username, password=password)
 
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            redirect('/account')
-    else:
-        redirect('/account/login')
-        return HttpResponse(json.dumps({"error": "invalid login"}), content_type="application/json")
+  if user is not None:
+    if user.is_active:
+      login(request, user)
+      redirect('/account')
+  else:
+    redirect('/account/login')
+    return HttpResponse(json.dumps({"error": "invalid login"}), content_type="application/json")
 
 def resetpin(request):
-    if request.user.is_authenticated():
-        user = KegUser.objects.get(user = request.user)
-        response_data = {}
-        userpin = user_utils.generatepin(5)
-        response_data['pin'] = userpin
-        user.pin = userpin
-        user.save()
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"error": "user not authenticated"}))
+  if request.user.is_authenticated():
+    user = KegUser.objects.get(user = request.user)
+    response_data = {}
+    userpin = user_utils.generatepin(5)
+    response_data['pin'] = userpin
+    user.pin = userpin
+    user.save()
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+  else:
+    return HttpResponse(json.dumps({"error": "user not authenticated"}))
 
 
 def register(request):
