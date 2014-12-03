@@ -1,9 +1,13 @@
 # Create your views here.
+from django.contrib.auth import authenticate, login2
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from account.models import KegUserForm, UserForm
+from account import user_utils
+
+import json
 
 def payment(request):
   pass
@@ -16,8 +20,31 @@ def index(request):
   # view stripe transactions?
   pass
 
+def login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            redirect('/account')
+    else:
+        redirect('/account/login')
+        return HttpResponse(json.dumps({"error": "invalid login"}), content_type="application/json")
+
 def resetpin(request):
-  pass
+    if request.user.is_authenticated():
+        user = KegUser.objects.get(user = request.user)
+        response_data = {}
+        userpin = user_utils.generatepin(5)
+        response_data['pin'] = userpin
+        user.pin = userpin
+        user.save()
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"error": "user not authenticated"}))
+
 
 def register(request):
   if request.method == 'POST':
