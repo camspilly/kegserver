@@ -3,7 +3,7 @@
 <div class="ui grid segment">
   <div class="five wide column"></div>
   <div class="six wide column">
-    <form action="" method="POST">
+    <form id="loginForm" action="" method="POST">
       {% csrf_token %}
       <div class="ui form segment">
         <div class="field">
@@ -14,7 +14,7 @@
           <label>Password</label>
           <input type="password" name="password" placeholder="password">
         </div>
-        <div class="ui button" id="registerButton">
+        <div class="ui button" id="loginButton">
           Login
         </div>
     </form>
