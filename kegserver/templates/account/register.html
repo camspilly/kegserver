@@ -1,8 +1,9 @@
-{% extends "layout.html" %}
+{% extends "templates/account/layout.html" %}
+{% block content %}
 <div class="ui grid segment">
   <div class="four wide column"></div>
   <div class="eight wide column">
-    <form action="" method="POST">
+    <form class="ui form" action="" method="POST">
       {% csrf_token %}
       <div class="ui form segment">
         <div class="two fields">
@@ -25,17 +26,16 @@
             {{ keguserform.phone_number }}
           </div>
         </div>
-        <div class="two fields">
-          <div class="field">
-            <label>Password</label>
-            {{ userform.password}}
-          </div>
-          <div class="field">
-            <input type="submit" class="ui submit button”>
-          </div>
+        <div class="field">
+          <label>Password</label>
+          {{ userform.password}}
+        </div>
+        <div class="ui button" id="registerButton">
+          Register
         </div>
       </div>
     </div>
     <div class="four wide column"></div>
   </div>
 </div>
+{% endblock %}

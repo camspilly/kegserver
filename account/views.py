@@ -1,5 +1,5 @@
 # Create your views here.
-from django.contrib.auth import authenticate, login2
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
@@ -21,17 +21,27 @@ def index(request):
   pass
 
 def login(request):
-  username = request.POST['username']
-  password = request.POST['password']
-  user = authenticate(username=username, password=password)
+  if request.method == 'POST':
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
 
-  if user is not None:
-    if user.is_active:
-      login(request, user)
-      redirect('/account')
+    if user is not None:
+      if user.is_active:
+        login(request, user)
+        redirect('/account')
+    else:
+      return render_to_response('templates/account/login.html', 
+                             {"error": "invalid login"},
+                             context_instance=RequestContext(request))
   else:
-    redirect('/account/login')
-    return HttpResponse(json.dumps({"error": "invalid login"}), content_type="application/json")
+    if not request.user.is_authenticated():
+      return render_to_response('templates/account/login.html', 
+                             context_instance=RequestContext(request))
+    else:
+      return redirect('/account')
+
+
 
 def resetpin(request):
   if request.user.is_authenticated():
@@ -57,7 +67,7 @@ def register(request):
       keguser = keguserf.save(commit=False)
       keguser.user = user
       keguser.save()
-      return redirect('/helloworld/')
+      return redirect('/account/') # redirect to account, display toast that says succesful register
   else:
     userf = UserForm(prefix='user')
     keguserf = KegUserForm(prefix='keguser')
@@ -66,5 +76,4 @@ def register(request):
                             keguserform=keguserf),
                            context_instance=RequestContext(request))
 
-  return redirect('/account/') # redirect to account, display toast that says succesful register
 
