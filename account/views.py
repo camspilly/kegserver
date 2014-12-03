@@ -34,7 +34,7 @@ def register(request):
   else:
     userf = UserForm(prefix='user')
     keguserf = KegUserForm(prefix='keguser')
-    return render_to_response('templates/register/register2.html', 
+    return render_to_response('templates/account/register.html', 
                            dict(userform=userf,
                             keguserform=keguserf),
                            context_instance=RequestContext(request))

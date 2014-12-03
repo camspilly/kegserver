@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+<div class="ui grid segment">
+  <div class="four wide column"></div>
+  <div class="eight wide column">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="ui form segment">
+        <div class="two fields">
+          <div class="field">
+            <label>First name</label>
+            {{ userform.first_name }}
+          </div>
+          <div class="field">
+            <label>Last name</label>
+            {{ userform.last_name }}
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>Email</label>
+            {{ userform.email }}
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            {{ keguserform.phone_number }}
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label>Password</label>
+            {{ userform.password}}
+          </div>
+          <div class="field">
+            <input type="submit" class="ui submit button”>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="four wide column"></div>
+  </div>
+</div>
