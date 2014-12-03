@@ -9,6 +9,7 @@ class KegUser(models.Model):
     user = models.OneToOneField(User)
     phone_number = models.PositiveIntegerField(max_length=15)
     stripe_id = models.CharField(max_length=50)
+    pin = models.IntegerField(max_length=10)
 
 class KegUserForm(ModelForm):
     class Meta:
