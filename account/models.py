@@ -14,7 +14,7 @@ class KegUser(models.Model):
 class KegUserForm(ModelForm):
   class Meta:
     model = KegUser
-    exclude = ['user', 'stripe_id']
+    exclude = ['user', 'stripe_id', 'pin']
 
 class UserForm(ModelForm):
   class Meta:
