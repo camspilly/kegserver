@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	$("#registerButton").on("click", function() {
 		$("#registerForm").submit();
 	});

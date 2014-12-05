@@ -10,7 +10,6 @@ from account import user_utils
 import json
 
 def payment(request):
-  pass
   
 def index(request):
   # /account/
@@ -19,6 +18,14 @@ def index(request):
   # manage stripe
   # view stripe transactions?
   pass
+
+def purchase(request)
+
+def index(request):
+  if request.user.is_authenticated():
+    return render_to_response('templates/account/login.html', 
+                           {"error": "invalid login"},
+                           context_instance=RequestContext(request))
 
 def login(request):
   if request.method == 'POST':
