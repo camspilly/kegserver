@@ -6,8 +6,21 @@ from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from account.models import KegUserForm, UserForm
 from account import user_utils
+from account import stripe
 
 import json
+
+def index(request):
+  # /account/
+  # display reset pin
+  # display add payment option
+  # manage stripe
+  # view stripe transactions?
+  pass
+
+def purchase(request)
+  user = KegUser.objects.get(user = request.user)
+  stripe.charge(request.)
 
 def index(request):
   if request.user.is_authenticated():
@@ -83,4 +96,11 @@ def register(request):
                             keguserform=keguserf),
                            context_instance=RequestContext(request))
 
+def pinToUser(request):
+  user = KegUser.objects.get(pin = request.pin)
+
+  if user is None:
+    return HttpResponse(0)
+  else:
+    return HttpResponse()
 
