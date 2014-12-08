@@ -18,9 +18,22 @@ def index(request):
   # view stripe transactions?
   pass
 
-def purchase(request)
-  user = KegUser.objects.get(user = request.user)
-  stripe.charge(request.)
+def purchase(request):
+  # Commented out for testing
+  # Uncomment out whe api key is being sent by Chris
+  # if not user_utils.api_auth(request.api_key):
+  #  return HttpResponse(json.dumps({"error": "api key failure"}))
+  user = User.objects.get(username = request.userid)
+  keguser = KegUser.objects.get(user = user)
+
+  if not stripe.charge(keguser.stripe_id, request.price):
+    keguser.blocked = True
+    return HttpResponse(json.dumps({"error": "credit card declined"}))
+  else:
+    return HttpResponse(json.dumps({"status": "You were charged: " + str(request.price / 100.0)}))
+
+
+
 
 def index(request):
   if request.user.is_authenticated():
@@ -30,24 +43,35 @@ def index(request):
 
 def login(request):
   if request.method == 'POST':
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
+    print request.POST
+    username = request.POST[u'username']
+    password = request.POST[u'password']
+    print password
+    print username
+    user = authenticate(username="slave@slave.com", password='nig')
 
     if user is not None:
       if user.is_active:
         login(request, user)
+        print "I'm Active!"
         redirect('/account')
     else:
+      print "Invalid Login?"
+      print user
       return render_to_response('templates/account/login.html', 
                              {"error": "invalid login"},
                              context_instance=RequestContext(request))
+
   else:
     if not request.user.is_authenticated():
+      print "not authenticated?"
       return render_to_response('templates/account/login.html', 
                              context_instance=RequestContext(request))
+
     else:
+      print "what"
       return redirect('/account')
+
 
 
 
@@ -75,6 +99,7 @@ def register(request):
       user.username = user.email
       keguser = keguserf.save(commit=False)
       keguser.pin = user_utils.generatepin(5)
+      keguser.blocked = False
       user.save()
       keguser.user = user
       keguser.save()
@@ -97,10 +122,14 @@ def register(request):
                            context_instance=RequestContext(request))
 
 def pinToUser(request):
+  # Commented out for testing
+  # Uncomment out whe api key is being sent by Chris
+  # if not user_utils.api_auth(request.api_key):
+  #  return HttpResponse(json.dumps({"error": "api key failure"}))
   user = KegUser.objects.get(pin = request.pin)
 
   if user is None:
-    return HttpResponse(0)
+    return HttpResponse(json.dumps({"error": "incorrect pin"}))
   else:
-    return HttpResponse()
+    return HttpResponse(json.dumps({"email": user.user.username}))
 
