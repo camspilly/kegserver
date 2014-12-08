@@ -1,15 +1,19 @@
 {% extends "templates/account/layout.html" %}
 {% block content %}
 <div class="ui grid segment">
-  <div class="two wide column"></div>
-  <div class="five wide column">
+  <div class="three wide column"></div>
+  <div class="ten wide column">
     <div class="ui segment">
+      <h2 class="ui header">
+        <i class="settings icon"></i>
+        <div class="content">
+          {{ request.user.get_profile.get_first_name }} {{ request.user.get_profile.get_last_name }}
+          <div class="sub header">Manage your account settings and attach payment information.</div>
+        </div>
+        
+      </h2>
     </div>
   </div>
-  <div class="five wide column">
-    <div class="ui segment">
-    </div>
-  </div>
-  <div class="four wide column"></div>
+  <div class="three wide column"></div>
 </div>
 {% endblock %}
