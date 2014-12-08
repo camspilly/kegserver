@@ -1,5 +1,5 @@
 # Create your views here.
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as authlogin
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect, render
@@ -44,20 +44,17 @@ def index(request):
 def login(request):
   if request.method == 'POST':
     print request.POST
-    username = request.POST[u'username']
-    password = request.POST[u'password']
-    print password
-    print username
-    user = authenticate(username="slave@slave.com", password='nig')
+    name = request.POST[u'username']
+    word = request.POST[u'password']
+    user = authenticate(username=name, password=word)
+    print user
 
     if user is not None:
       if user.is_active:
-        login(request, user)
+        authlogin(request, user)
         print "I'm Active!"
-        redirect('/account')
+        return redirect('/account/')
     else:
-      print "Invalid Login?"
-      print user
       return render_to_response('templates/account/login.html', 
                              {"error": "invalid login"},
                              context_instance=RequestContext(request))
@@ -71,9 +68,6 @@ def login(request):
     else:
       print "what"
       return redirect('/account')
-
-
-
 
 def resetpin(request):
   if request.user.is_authenticated():
@@ -96,6 +90,7 @@ def register(request):
     if userf.is_valid() * keguserf.is_valid():
       print "good register!"
       user = userf.save(commit=False)
+      user.set_password(request.POST[u'user-password'])
       user.username = user.email
       keguser = keguserf.save(commit=False)
       keguser.pin = user_utils.generatepin(5)
