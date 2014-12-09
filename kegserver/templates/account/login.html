@@ -3,6 +3,7 @@
 <div class="ui grid segment">
   <div class="five wide column"></div>
   <div class="six wide column">
+    {{ error }}
     <form id="loginForm" action="" method="POST">
       {% csrf_token %}
       <div class="ui form segment">

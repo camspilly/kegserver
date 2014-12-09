@@ -7,8 +7,11 @@ from django.template import RequestContext
 from account.models import KegUserForm, UserForm
 from account import user_utils
 from account import stripe
-
+from django.template import Context
+from account.models import KegUser, User
 import json
+from django.core.context_processors import csrf
+from django.views.decorators.cache import never_cache
 
 def index(request):
   # /account/
@@ -23,7 +26,8 @@ def purchase(request):
   # Uncomment out whe api key is being sent by Chris
   # if not user_utils.api_auth(request.api_key):
   #  return HttpResponse(json.dumps({"error": "api key failure"}))
-  user = User.objects.get(username = request.userid)
+  user = User.objects.get(username = request.user)
+
   keguser = KegUser.objects.get(user = user)
 
   if not stripe.charge(keguser.stripe_id, request.price):
@@ -33,11 +37,32 @@ def purchase(request):
     return HttpResponse(json.dumps({"status": "You were charged: " + str(request.price / 100.0)}))
 
 
+def add_payment(request):
+  if request.user.is_authenticated():
+    if request.method == 'POST':
+      keguser = KegUser.objects.get(user = request.user)
+      keguser.stripe_id = request.POST['id']
+      keguser.save()
+      return redirect('/account/')
+    else:
+      return render(request, 'templates/account/add_payment.html')
+
+def remove_payment(request):
+  if request.user.is_authenticated():
+    if request.method == 'POST':
+      keguser = KegUser.objects.get(user = request.user)
+      keguser.stripe_id = ""
+      keguser.save()
+      return redirect('/account/')
 
 
+@never_cache
 def index(request):
   if request.user.is_authenticated():
-    return render(request, 'templates/account/index.html', {"user": request.user})
+    
+    keguser = KegUser.objects.get(user=request.user)
+    print keguser.stripe_id
+    return render(request, 'templates/account/index.html', Context({"user": request.user, "keguser" : keguser}))
   else:
     return redirect('/account/login')
 
@@ -47,7 +72,6 @@ def login(request):
     name = request.POST[u'username']
     word = request.POST[u'password']
     user = authenticate(username=name, password=word)
-    print user
 
     if user is not None:
       if user.is_active:
@@ -56,7 +80,7 @@ def login(request):
         return redirect('/account/')
     else:
       return render_to_response('templates/account/login.html', 
-                             {"error": "invalid login"},
+                             Context({"error": "invalid login"}),
                              context_instance=RequestContext(request))
 
   else:

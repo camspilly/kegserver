@@ -4,14 +4,48 @@
   <div class="three wide column"></div>
   <div class="ten wide column">
     <div class="ui segment">
-      <h2 class="ui header">
+      <h1 class="ui header">
         <i class="settings icon"></i>
         <div class="content">
-          {{ request.user.get_profile.get_first_name }} {{ request.user.get_profile.get_last_name }}
+          {{ user.first_name }} {{ user.last_name }}
           <div class="sub header">Manage your account settings and attach payment information.</div>
         </div>
-        
-      </h2>
+      </h1>
+      <div class="ui divider"></div>
+      <div class="ui segment basic">
+        <h2 class="ui header">Pin Information</h2>
+        <div class="ui form">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui button teal">Copy Pin</div>
+            </div>
+            <div class="field">
+              <label>Pin</label>
+              <input placeholder="{{ keguser.pin }}" readonly="readonly" type="text">
+            </div>
+            <div class="field">
+
+              <div class="ui button">Reset Pin</div>
+            </div>
+            <div class="field">
+              <div class="ui button">Text Pin</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui segment basic">
+        <h2 class="ui header">Payment Information</h2>
+        {% if not keguser.stripe_id %}
+          <a class="ui button" href="/account/add_payment">Add Payment Information</a>
+        {% else %}
+          <h4 class="ui header">You already have payment information</h4>
+          <form id="removePaymentForm"  action="/account/remove_payment" method="POST">
+            {% csrf_token %}
+            <div class="ui button" id="removePaymentInfoBtn">Remove Payment Info</div>
+          </form>
+        {% endif %}
+      </div>
     </div>
   </div>
   <div class="three wide column"></div>

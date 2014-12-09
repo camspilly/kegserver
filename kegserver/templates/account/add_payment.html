@@ -1,0 +1,58 @@
+{% extends "templates/account/layout.html" %}
+{% block content %}
+<div class="ui grid segment">
+  <div class="four wide column"></div>
+  <div class="eight wide column">
+    <form id="creditCardForm" class="ui form" action="" method="POST">
+      {% csrf_token %}
+      <div class="ui form segment">
+        <div class="one field">
+          <div class="field">
+            <label>Name</label>
+            <div class="ui input">
+              <input type="text" placeholder="John Doe" data-stripe="name">
+            </div>
+          </div>
+        </div>
+
+        <div class="one field">
+          <div class="field">
+            <label>Card Number</label>
+            <div class="ui input">
+              <input size="20" type="text" data-stripe="number">
+            </div>
+          </div>
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>Expiration Month</label>
+            <div class="ui input">
+              <input type="text" size="2" placeholder="MM" data-stripe="exp-month">
+            </div>
+          </div>
+          <div class="field">
+            <label>Expiration Year</label>
+            <div class="ui input">
+              <input type="text" size="4"placeholder="YYYY" data-stripe="exp-year">
+            </div>
+          </div>
+          <div class="field">
+            <label>Security Code</label>
+            <div class="ui input">
+              <input type="text" size="4" data-stripe="cvc">
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui button" id="addPaymentInfoBtn">Submit</div>
+        </div>
+        <div id="cardError" class="hidden">
+          <label class="red">The credit card information was not valid</label>
+        </div>
+      </div>
+    </form>
+    </div>
+    <div class="four wide column"></div>
+  </div>
+</div>
+{% endblock %}

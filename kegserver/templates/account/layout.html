@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="/static/javascripts/semantic.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="/static/javascripts/semantic.min.js"></script>
     <script src="/static/javascripts/app.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+      // This identifies your website in the createToken call below
+      Stripe.setPublishableKey('pk_test_wgPmKPHHnwKO4fxNRJ5ArZk2');
+      // ...
+    </script>
     <link rel="stylesheet" type="text/css" href="/static/stylesheets/semantic.min.css">
   </head>
   <body>

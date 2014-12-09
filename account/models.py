@@ -2,7 +2,6 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from django import forms
 
 # Create your models here.
 
@@ -25,7 +24,6 @@ class KegUserForm(ModelForm):
     exclude = ['user', 'stripe_id', 'pin', 'blocked']
 
 class UserForm(ModelForm):
-  password = forms.CharField(widget=forms.PasswordInput())
   class Meta:
     model = User
     fields = ('first_name', 'last_name', 'email', 'password')
