@@ -1,17 +1,16 @@
 import stripe
 from account.models import KegUser
 
-stripe.api_key = "sk_test_ptBAeXjS5bQetoVHXbb3gpK6"
 
 def create_customer(card_token):
+  stripe.api_key = "sk_test_ptBAeXjS5bQetoVHXbb3gpK6"
   customer = stripe.Customer.create(
-    card="card_token" # obtained with Stripe.js
+    card=card_token # obtained with Stripe.js
   )
-  user = KegUser.objects.get(user = request.user)
-  user.stripe_id = customer.id
-  user.save()
+  return customer.id
 
 def charge_customer(customer_id, amount):
+  stripe.api_key = "sk_test_ptBAeXjS5bQetoVHXbb3gpK6"
   try:
     charge = stripe.Charge.create(
       amount= amount, # amount in cents, again

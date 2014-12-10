@@ -10,6 +10,7 @@ urlpatterns = patterns('',
   url(r'^purchase/', views.purchase, name='purchase'),
   url(r'^add_payment', views.add_payment, name='add_payment'),
   url(r'^remove_payment', views.remove_payment, name='remove_payment'),
+  url(r'^logout', views.auth_logout, name='logout'),
   url(r'^$', views.index, name='index')
   
 

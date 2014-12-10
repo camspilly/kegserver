@@ -13,7 +13,7 @@ class KegUser(models.Model):
   and have the free time
   """
   
-  phone_number = models.PositiveIntegerField(max_length=15)
+  phone_number = models.CharField(max_length=15)
   stripe_id = models.CharField(max_length=50)
   pin = models.IntegerField(max_length=10)
   blocked = models.BooleanField()

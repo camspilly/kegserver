@@ -9,6 +9,7 @@
         <div class="content">
           {{ user.first_name }} {{ user.last_name }}
           <div class="sub header">Manage your account settings and attach payment information.</div>
+        <a class="ui button" href="/account/logout">Logout</a>
         </div>
       </h1>
       <div class="ui divider"></div>
@@ -17,18 +18,11 @@
         <div class="ui form">
           <div class="inline fields">
             <div class="field">
-              <div class="ui button teal">Copy Pin</div>
+              <a class="ui button teal" href="/account/resetpin">Reset Pin</a>
             </div>
             <div class="field">
               <label>Pin</label>
               <input placeholder="{{ keguser.pin }}" readonly="readonly" type="text">
-            </div>
-            <div class="field">
-
-              <div class="ui button">Reset Pin</div>
-            </div>
-            <div class="field">
-              <div class="ui button">Text Pin</div>
             </div>
           </div>
         </div>
